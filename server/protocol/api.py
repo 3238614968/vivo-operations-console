@@ -122,6 +122,12 @@ class VivoApi:
             return False
         return str(res.get('code', res.get('retcode'))) in ('0', '200', '10002', '10003')
 
+    @staticmethod
+    def identity_ok(res: Any) -> bool:
+        """登录态校验。31140003 = MPC 小程序网关不适用，上游参考实现视其为正常
+        （passport 会话正常，任务后端以 task/list 为准），不作为登录失败。"""
+        return VivoApi.ok(res) or str((res or {}).get('code')) == '31140003'
+
     def user_info(self) -> Dict[str, Any]:
         self._gap()
         h = {'content-type': 'application/json;charset=UTF-8', 'wxAppId': WX_APPID, 'vivo-token': self.acct.vivotoken}
