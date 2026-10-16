@@ -20,6 +20,7 @@ def test_standard_order_can_finish_without_sms_and_collect_activation(client,mon
     from protocol.transport import Transport
     calls=[]
     class Api:
+        identity_ok=staticmethod(runner.VivoApi.identity_ok)
         def user_info(self):return {'retcode':0}
         def ok(self,v):return v.get('retcode')==0
         def pm_points(self):return 100

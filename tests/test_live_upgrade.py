@@ -122,6 +122,7 @@ def test_redemption_dispatches_correct_contract_and_requires_readback(client,mon
     from protocol.transport import Transport
     calls=[]
     class Api:
+        identity_ok=staticmethod(runner.VivoApi.identity_ok)
         def __init__(self):self.reads=0
         def user_info(self):return {'retcode':0}
         def ok(self,r):return r.get('retcode')==0

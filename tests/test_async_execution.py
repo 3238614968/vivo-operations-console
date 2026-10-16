@@ -167,6 +167,7 @@ def test_reused_session_records_only_current_sync_request_count(monkeypatch):
     import protocol.runner as runner
     transport=Transport(gap=0)
     class Api:
+        identity_ok=staticmethod(runner.VivoApi.identity_ok)
         ok=staticmethod(lambda value:value.get('code')==0)
         def user_info(self):transport.requests_count+=1;return {'code':0}
         def pm_points(self):transport.requests_count+=1;return 10
