@@ -199,7 +199,7 @@ def iter_events(payload):
                 raw=renew(raw,transport,payload.get('allow_http_panels',False),payload.get('panel_api_key') or os.environ.get('VIVO_POOL_APIKEY',''));raw['saved_at']=time.time()
                 yield {'type':'credentials','credentials':raw};api=make_api(raw,transport);identity=api.user_info()
                 bind_checkpoints(api)
-            if not api.ok(identity):raise AccountStop('登录态未通过平台校验，需要续期或账号验证')
+            if not api.identity_ok(identity):raise AccountStop('登录态未通过平台校验，需要续期或账号验证')
         if not app_session:
             from execution_policy import verified_identity
             try:verified=verified_identity(raw,identity)
